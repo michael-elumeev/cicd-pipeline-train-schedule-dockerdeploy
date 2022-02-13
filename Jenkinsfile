@@ -44,7 +44,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS'),
                                 usernamePassword(credentialsId: 'docker_hub_login', usernameVariable: 'DOCKERUSER', passwordVariable: 'DOCKERPASS')]) {
                     script {
-                        sh "docker login -u=$DOCKERUSER -p=$DOCKERPASS"
+                        sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker login -u=$DOCKERUSER -p=$DOCKERPASS\""
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull 00314253/train-schedule:${env.BUILD_NUMBER}\""
                         try {
                             sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
