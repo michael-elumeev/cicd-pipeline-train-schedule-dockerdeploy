@@ -40,6 +40,7 @@ pipeline {
             }
             steps {
                 input 'Deploy to Production?'
+                milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS'),
                                 usernamePassword(credentialsId: 'docker_hub_login', usernameVariable: 'DOCKERUSER', passwordVariable: 'DOCKERPASS')]) {
                     script {
